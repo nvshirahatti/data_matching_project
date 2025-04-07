@@ -139,7 +139,7 @@ ehthumbs.db
 Desktop.ini
 
 # Project specific
-output/
+#output/
 *.csv
 !data/*.csv
 *.pkl

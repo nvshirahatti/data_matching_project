@@ -122,8 +122,7 @@ Parameters:
 ### Experiment 1: Basic Matching
 
 The initial experiment used a simple approach with:
-- String similarity for name and address matching
-- Jaccard similarity for category matching
+- Embedding cosine similarity for name, address and categories
 - Geographic distance calculation
 - XGBoost classifier with default parameters
 
@@ -188,7 +187,6 @@ Results:
   - Precision: 0.97
   - Recall: 0.85
   - F1 Score: 0.91
-- Random Forest was a close second
 - Neural Network required more data to perform well
 
 ## Model Performance
@@ -208,12 +206,3 @@ For handling millions of POIs, consider:
 3. Optimizing feature computation with caching
 4. Designing an incremental processing system
 5. Using model compression techniques
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Thanks to the open-source community for the libraries used in this project
-- Special thanks to the data providers for the sample datasets

@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 import numpy as np
 from typing import Optional, Union
-from utils import add_geohash, add_hash_arrays, create_hash_matches, process_geometry_columns, extract_zip, add_unique_key
+from utils import add_geohash, add_hash_arrays, create_hash_matches, process_geometry_columns, add_unique_key
 from feature_engineering import add_embedding_columns, extract_features
 import xgboost as xgb
 
@@ -19,9 +19,8 @@ def transform(df: pd.DataFrame) -> pd.DataFrame:
     print("Transforming data...")
     df = add_unique_key(df)
     df = process_geometry_columns(df)
-    # Convert postcode to string and extract zip using map
     df['postcode'] = df['postcode'].fillna('').astype(str)
-    df['zip'] = df['postcode'].map(extract_zip)
+    df['zip'] = df['postcode'].apply(lambda x: str(x)[:5] if pd.notna(x) else None)
     df = add_embedding_columns(df)
     df = add_geohash(df)
     df = add_hash_arrays(df)
@@ -183,7 +182,6 @@ def match_pipeline(
         
         return best_matches
     
-    # If no model is provided, still remove embedding, hashes, geohash, and zip columns
     columns_to_keep = [
         'key_df1', 'key_df2', 'match_count',
         'id_df1', 'provider_df1', 'name_df1', 'address_df1', 'geometry_df1', 

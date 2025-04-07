@@ -1,0 +1,6 @@
+Best Hyperparameters:
+  colsample_bytree: 0.8
+  learning_rate: 0.1
+  max_depth: 3
+  n_estimators: 15
+  subsample: 1.0

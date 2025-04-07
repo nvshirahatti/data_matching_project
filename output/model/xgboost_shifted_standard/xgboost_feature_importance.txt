@@ -1,0 +1,5 @@
+Feature Importance:
+  name_similarity: 0.0567
+  address_similarity: 0.8081
+  categories_similarity: 0.0269
+  distance: 0.1083

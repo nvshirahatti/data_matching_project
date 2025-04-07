@@ -1,0 +1,13 @@
+Training Metrics:
+  accuracy: 0.9224
+  precision: 0.9512
+  recall: 0.9398
+  f1: 0.9455
+  roc_auc: 0.9423
+
+Validation Metrics:
+  accuracy: 0.7241
+  precision: 0.8462
+  recall: 0.6471
+  f1: 0.7333
+  roc_auc: 0.7696

@@ -44,7 +44,7 @@ class DataGenerator:
             df = process_geometry_columns(df)
             
             # Extract zip code
-            df['zip'] = df['postcode'].apply(extract_zip)
+            df['zip'] = df['postcode'].apply(lambda x: str(x)[:5] if pd.notna(x) else None)
             
             # Add unique key
             df = add_unique_key(df)

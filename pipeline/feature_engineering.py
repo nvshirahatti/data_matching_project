@@ -3,6 +3,7 @@ import torch
 from typing import List, Optional, Union, Tuple, Dict
 import numpy as np
 import pandas as pd
+import math
 
 def get_embedding_model(model_name: str = 'all-MiniLM-L6-v2', device: Optional[str] = None) -> SentenceTransformer:
     """
@@ -113,8 +114,22 @@ def extract_features(pairs_df: pd.DataFrame) -> pd.DataFrame:
     # Calculate distance between points if geometry columns exist
     if 'geometry_df1' in pairs_df.columns and 'geometry_df2' in pairs_df.columns:
         from shapely.geometry import Point
+        
+        def haversine_distance(lat1, lon1, lat2, lon2):
+            """Calculate the great circle distance between two points on the earth (specified in decimal degrees)"""
+            # Convert decimal degrees to radians
+            lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+            
+            # Haversine formula
+            dlon = lon2 - lon1
+            dlat = lat2 - lat1
+            a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+            c = 2 * math.asin(math.sqrt(a))
+            r = 6371  # Radius of earth in kilometers
+            return c * r
+        
         pairs_df['distance'] = [
-            Point(g1).distance(Point(g2)) if pd.notna(g1) and pd.notna(g2) else None
+            haversine_distance(g1.y, g1.x, g2.y, g2.x) if pd.notna(g1) and pd.notna(g2) else None
             for g1, g2 in zip(pairs_df['geometry_df1'], pairs_df['geometry_df2'])
         ]
     
